@@ -1,6 +1,6 @@
-# conf_bot
+# Full burst ultimate storm revolution conf_bot
 
-# Create your own spy bot in Telegram
+# Create your own spy bot in Telegram ¯\_(ツ)_/¯
 
 This bot is able to get every message in your group, log it and send simple stat about top 10 used words. 
 Also bot can summon every active member of group with @here command.
