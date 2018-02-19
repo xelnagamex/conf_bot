@@ -2,6 +2,7 @@ BEGIN TRANSACTION;
 -- DROP TABLE IF EXISTS `word`;
 CREATE TABLE IF NOT EXISTS `word` (
 	`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
+	`is_russian`	INTEGER NOT NULL,
 	`word`	TEXT UNIQUE
 );
 -- DROP TABLE IF EXISTS `user`;
@@ -21,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `relations` (
 	`conf_id`	INTEGER NOT NULL,
 	`date`	INTEGER NOT NULL,
 	FOREIGN KEY(`conf_id`) REFERENCES `conf`(`id`),
-	FOREIGN KEY(`word_id`) REFERENCES `word`(`id`) ON DELETE CASCADE,
+	FOREIGN KEY(`word_id`) REFERENCES `word`(`id`),
 	FOREIGN KEY(`user_id`) REFERENCES `user`(`id`)
 );
 -- DROP TABLE IF EXISTS `conf`;

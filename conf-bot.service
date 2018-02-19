@@ -1,0 +1,17 @@
+[Unit]
+Description=Telegram spy bot.
+[Service]
+Type=simple
+User=ab
+Group=ab
+Restart=always
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+WorkingDirectory=/var/lib/conf_bot
+ExecStart=/usr/bin/python3 /var/lib/conf_bot/main.py
+ExecStop=killall -TERM /usr/bin/python3 /var/lib/conf_bot/main.py
+[Install]
+WantedBy=multi-user.target
+
+

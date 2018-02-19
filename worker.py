@@ -8,6 +8,7 @@ import os
 import urllib.request
 from urllib.parse import urlencode
 import settings
+import re
 
 class MessageWorker:
     def __init__(self, db, stop_words = 'assets/stop-word.ru'):
@@ -29,6 +30,21 @@ class MessageWorker:
                 )
                 for word in top:
                     message += '*%s*: %s\n' % (word[1], word[0])
+                self.send(id=conf_id, msg=message)
+                return True
+            if msg['message']['text'] == '@here':
+                conf_id = msg['message']['chat']['id']
+                user_id = msg['message']['from']['id']
+                chat_title = msg['message']['chat']['title']
+                self.db.add_conf(conf_id, chat_title)
+
+                message = """I summon you!\n"""
+                users = self.db.here(
+                    user_id=user_id,
+                    conf_id=conf_id
+                )
+                for user in users:
+                    message += '@%s ' % (user[0])
                 self.send(id=conf_id, msg=message)
                 return True
         except:
@@ -68,6 +84,8 @@ class MessageWorker:
         file = open(self.stop_words, 'rt')
         sw = file.read().split('\n')
         file.close()
+        s = re.sub(r'(https?:\/\/)?([\da-z\.-]+)\.([\/\w\.-]*)*\/?\S','',s,flags=re.MULTILINE)
+        print(s)
         # dirty hack with dat fucking file
         fh = open("tmp.txt","w")
         fh.write(s)

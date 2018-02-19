@@ -91,6 +91,21 @@ class DataBase:
         result = self.execute(sql)
         return(result)
 
+    def here(self, user_id, conf_id):
+        sql= """
+        select distinct(u.username) from relations r 
+        left join user u 
+        on u.id = r.user_id
+        left join conf c on r.conf_id = c.id
+        where c.id = '%s' and 
+        u.id != '%s'
+        """ % (
+            conf_id,
+            user_id
+        )
+        result = self.execute(sql)
+        return(result)
+
     
     def close(self):
         self.conn.close()

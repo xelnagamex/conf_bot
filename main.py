@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 from webhook import WebHook
 import settings
@@ -15,6 +15,6 @@ signal.signal(signal.SIGINT, signal_handler)
 wh = WebHook(
     certfile = 'assets/cert.pem',
     keyfile='assets/cert.key',
-    port=8080)
+    port=8443)
 
 wh.serve()
