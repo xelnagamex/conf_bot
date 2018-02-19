@@ -32,6 +32,20 @@ class MessageWorker:
                     message += '*%s*: %s\n' % (word[1], word[0])
                 self.send(id=conf_id, msg=message)
                 return True
+
+            if msg['message']['text'] == '/reset':
+                conf_id = msg['message']['chat']['id']
+                user_id = msg['message']['from']['id']
+                chat_title = msg['message']['chat']['title']
+                self.db.add_conf(conf_id, chat_title)
+
+                message = """Your stat has been resetted."""
+                self.db.reset(
+                    conf_id=conf_id,
+                    user_id=user_id)
+
+                return True
+
             if msg['message']['text'] == '@here':
                 conf_id = msg['message']['chat']['id']
                 user_id = msg['message']['from']['id']

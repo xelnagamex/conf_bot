@@ -2,7 +2,6 @@ BEGIN TRANSACTION;
 -- DROP TABLE IF EXISTS `word`;
 CREATE TABLE IF NOT EXISTS `word` (
 	`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
-	`is_russian`	INTEGER NOT NULL,
 	`word`	TEXT UNIQUE
 );
 -- DROP TABLE IF EXISTS `user`;
@@ -13,6 +12,15 @@ CREATE TABLE IF NOT EXISTS `user` (
 	`last_name`	INTEGER NOT NULL,
 	`date`	INTEGER NOT NULL,
 	PRIMARY KEY(`id`)
+);
+-- DROP TABLE IF EXISTS `reset`;
+CREATE TABLE IF NOT EXISTS `reset` (
+	`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
+	`user_id`	INTEGER,
+	`conf_id`	INTEGER,
+	`date`	INTEGER,
+	`relation_id`	INTEGER,
+	FOREIGN KEY(`user_id`) REFERENCES `user`(`id`)
 );
 -- DROP TABLE IF EXISTS `relations`;
 CREATE TABLE IF NOT EXISTS `relations` (

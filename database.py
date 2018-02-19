@@ -79,13 +79,15 @@ class DataBase:
         LEFT JOIN word w ON w.id = r.word_id
         LEFT JOIN `user` u ON u.id = r.user_id
         WHERE u.id = '%s' AND
-        r.conf_id = '%s'
+        r.conf_id = '%s' AND
+        r.id > (SELECT IFNULL(MAX(relation_id), 0) FROM reset WHERE user_id = '%s')
         GROUP BY w.word
         ORDER BY count DESC
         LIMIT %s
         """ % (
             user_id,
             conf_id,
+            user_id,
             limit
         )
         result = self.execute(sql)
@@ -93,11 +95,12 @@ class DataBase:
 
     def here(self, user_id, conf_id):
         sql= """
-        select distinct(u.username) from relations r 
-        left join user u 
-        on u.id = r.user_id
-        left join conf c on r.conf_id = c.id
-        where c.id = '%s' and 
+        SELECT DISTINCT(u.username) FROM relations r 
+        LEFT JOIN user u 
+        ON u.id = r.user_id
+        LEFT JOIN conf c 
+        ON r.conf_id = c.id
+        WHERE c.id = '%s' and 
         u.id != '%s'
         """ % (
             conf_id,
@@ -105,6 +108,10 @@ class DataBase:
         )
         result = self.execute(sql)
         return(result)
+
+#    def reset(self, user_id, conf_id):
+#        date = int(dt.datetime.now().strftime("%s"))
+#        sql 
 
     
     def close(self):
