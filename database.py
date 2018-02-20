@@ -90,6 +90,7 @@ class DataBase:
             user_id,
             conf_id,
             user_id,
+            conf_id,
             limit
         )
         result = self.execute(sql)

@@ -1,5 +1,6 @@
 assets/cert*
 **/settings.ini
+**/__pycache__/*
 main.db
 main.db-journal
 settings.ini

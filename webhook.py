@@ -30,10 +30,6 @@ class RequestHandler(SimpleHTTPRequestHandler):
         length = self.headers.get('content-length')
         post_body = self.rfile.read(int(length))
         msg = json.loads(post_body.decode("utf-8"))
-        msg2 = post_body.decode("utf-8")
-        fh = open("log.json","a+")
-        fh.write(msg2)
-        fh.close()
         self.worker.handleUpdate(msg)
         
     def do_GET(self):
