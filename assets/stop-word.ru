@@ -14,6 +14,7 @@
 бы
 stat
 вообще
+ThreadTopBot
 /stat
 во
 вы
