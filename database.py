@@ -80,7 +80,9 @@ class DataBase:
         LEFT JOIN `user` u ON u.id = r.user_id
         WHERE u.id = '%s' AND
         r.conf_id = '%s' AND
-        r.id > (SELECT IFNULL(MAX(relation_id), 0) FROM reset WHERE user_id = '%s')
+        r.id > (
+            SELECT IFNULL(MAX(relation_id), 0) FROM reset WHERE user_id = '%s' AND conf_id = '%s'
+        )
         GROUP BY w.word
         ORDER BY count DESC
         LIMIT %s
@@ -109,9 +111,18 @@ class DataBase:
         result = self.execute(sql)
         return(result)
 
-#    def reset(self, user_id, conf_id):
-#        date = int(dt.datetime.now().strftime("%s"))
-#        sql 
+    def reset(self, user_id, conf_id):
+        date = int(dt.datetime.now().strftime("%s"))
+        sql = """
+        INSERT OR IGNORE INTO reset (user_id, conf_id, date, relation_id) 
+        VALUES ('%s', '%s', '%s', (SELECT MAX(rowid) FROM relations));
+        """ % (
+            user_id,
+            conf_id,
+            date
+        )
+        result = self.execute(sql)
+        return(result)
 
     
     def close(self):

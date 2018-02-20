@@ -1,4 +1,5 @@
 assets/cert*
 **/settings.ini
 main.db
+main.db-journal
 settings.ini

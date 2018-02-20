@@ -43,7 +43,6 @@ class MessageWorker:
                 self.db.reset(
                     conf_id=conf_id,
                     user_id=user_id)
-
                 return True
 
             if msg['message']['text'] == '@here':
