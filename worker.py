@@ -45,6 +45,25 @@ class MessageWorker:
                     user_id=user_id)
                 return True
 
+            if msg['message']['text'][:4] == '/sql':
+                conf_id = msg['message']['chat']['id']
+                user_id = msg['message']['from']['id']
+                chat_title = msg['message']['chat']['title']
+                self.db.add_conf(conf_id, chat_title)
+                sql = msg['message']['text'][5:]
+
+                res = self.db.command(sql)
+                try:
+                  msg = '```\n'
+                  for z in res:
+                    for i in z:
+                      msg = msg + str(i) + '\t'
+                    msg = msg + '\n'
+                except:
+                  msg = res
+                self.send(id=conf_id, msg=msg + ' ```')
+                return True
+
             if msg['message']['text'] == '@here':
                 conf_id = msg['message']['chat']['id']
                 user_id = msg['message']['from']['id']
@@ -123,6 +142,7 @@ class MessageWorker:
         return collection
 
     def send(self, id, msg):
+        print(msg)
         url =  settings.parser.get('bot', 'telegram_api') + \
             'bot'+ settings.parser.get('bot', 'telegram_key') \
             + '/sendMessage'

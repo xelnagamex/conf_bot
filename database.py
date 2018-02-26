@@ -125,6 +125,21 @@ class DataBase:
         result = self.execute(sql)
         return(result)
 
+    def command(self, sql):
+        if 'DELETE' in sql.upper() \
+        or 'INSERT' in sql.upper() \
+        or 'UPDATE' in sql.upper() \
+        or 'CREATE' in sql.upper() \
+        or 'ALTER' in sql.upper():
+            return('gtfo')
+        try:
+            if 'LIMIT' in sql.upper()[-9:]:
+              result = self.execute(sql)
+            else:
+              result = self.execute(sql + ' limit 20')
+        except Exception as err:
+            result = err
+        return(result)
     
     def close(self):
         self.conn.close()
