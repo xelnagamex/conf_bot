@@ -3,6 +3,7 @@ import datetime as dt
 class DataBase:
     def __init__(self, basefile, scheme):
         import sqlite3
+        self.scheme = ''
         try:
             self.conn = sqlite3.connect(basefile, check_same_thread=False)
         except:
@@ -10,6 +11,7 @@ class DataBase:
             return None
         with open(scheme, 'r') as scheme_sql:
             sql = scheme_sql.read()
+            self.scheme = sql
             if self.conn is not None:
                 try:
                     cursor = self.conn.cursor()
@@ -129,6 +131,7 @@ class DataBase:
         if 'DELETE' in sql.upper() \
         or 'INSERT' in sql.upper() \
         or 'UPDATE' in sql.upper() \
+        or 'DROP' in sql.upper() \
         or 'CREATE' in sql.upper() \
         or 'ALTER' in sql.upper():
             return('gtfo')

@@ -17,6 +17,14 @@ class MessageWorker:
 
     def handleUpdate(self, msg):
         try:
+            if msg['message']['text'] == '/scheme':
+                conf_id = msg['message']['chat']['id']
+                user_id = msg['message']['from']['id']
+                chat_title = msg['message']['chat']['title']
+                self.db.add_conf(conf_id, chat_title)
+                self.send(id=conf_id, msg='```\n' + self.db.scheme + '\n```')
+                return True
+
             if msg['message']['text'] == '/stat':
                 conf_id = msg['message']['chat']['id']
                 user_id = msg['message']['from']['id']
@@ -53,6 +61,10 @@ class MessageWorker:
                 sql = msg['message']['text'][5:]
 
                 res = self.db.command(sql)
+                if 'syntax' in str(res) \
+                or 'ambiguous' in str(res):
+                  self.send(id=conf_id, msg=str(res))
+                  return False
                 try:
                   msg = '```\n'
                   for z in res:
