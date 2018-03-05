@@ -78,6 +78,7 @@ class MessageWorker:
 
             first, *middle, last = msg['message']['text'].split()
             if first  == '@here' or last == '@here':
+
                 conf_id = msg['message']['chat']['id']
                 user_id = msg['message']['from']['id']
                 chat_title = msg['message']['chat']['title']
