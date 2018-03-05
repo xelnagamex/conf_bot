@@ -76,8 +76,7 @@ class MessageWorker:
                 self.send(id=conf_id, msg=msg + ' ```')
                 return True
 
-            first, *middle, last = msg.split()
-            if first  == '@here' or last == '@here':
+            if msg['message']['text'] == '@here':
                 conf_id = msg['message']['chat']['id']
                 user_id = msg['message']['from']['id']
                 chat_title = msg['message']['chat']['title']
